@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace ToDo
 {
@@ -7,12 +8,30 @@ namespace ToDo
     {
         public static void Main(string[] args)
         {
-            WriteArguments();
+            if (args.Contains("-l"))
+            {
+                ListTasks();
+            }
+            else
+            {
+                ListArguments();
+            }
+                
         }
 
-        private static void WriteArguments()
+        private static void ListTasks()
         {
-            string text = System.IO.File.ReadAllText(@"../../assets/arguments.txt");
+            string[] list = File.ReadAllLines(@"../../assets/list.txt");
+            for (int i = 0; i < list.Length; i++)
+            {
+                Console.WriteLine("{0}. - {1}", i + 1, list[i]);
+            }
+
+        }
+
+        private static void ListArguments()
+        {
+            string text = File.ReadAllText(@"../../assets/arguments.txt");
             Console.WriteLine(text);
         }
     }

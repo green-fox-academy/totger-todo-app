@@ -22,11 +22,17 @@ namespace ToDo
         private static void ListTasks()
         {
             string[] list = File.ReadAllLines(@"../../assets/list.txt");
-            for (int i = 0; i < list.Length; i++)
+            if (list.Length == 0)
             {
-                Console.WriteLine("{0}. - {1}", i + 1, list[i]);
+                Console.WriteLine("No todos for today :)");
             }
-
+            else
+            {
+				for (int i = 0; i < list.Length; i++)
+				{
+					Console.WriteLine("{0}. - {1}", i + 1, list[i]);
+				}   
+            }
         }
 
         private static void ListArguments()

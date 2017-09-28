@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -20,12 +21,33 @@ namespace ToDo
                 }
                 else
                 {
-					using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
-					{
-						writer.WriteLine(args[1]);
-					}    
+                    using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
+                    {
+                        writer.WriteLine(args[1]);
+                    }
                 }
 
+            }
+            else if (args.Contains("-r"))
+            {
+                try
+                {
+                    var file = new List<string>(File.ReadAllLines(@"../../assets/list.txt"));
+                    file.RemoveAt(Convert.ToInt32(args[1]) - 1);
+                    File.WriteAllLines(@"../../assets/list.txt", file);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Unable to add: no task provided");
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("Unable to remove: index is out of bound");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Unable to remove: index is not a number");
+                }
             }
             else
             {

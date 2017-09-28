@@ -26,7 +26,6 @@ namespace ToDo
                         writer.WriteLine(args[1]);
                     }
                 }
-
             }
             else if (args.Contains("-r"))
             {
@@ -49,6 +48,13 @@ namespace ToDo
                     Console.WriteLine("Unable to remove: index is not a number");
                 }
             }
+            else if (args.Length > 0 && !args.Contains("-l") || !args.Contains("-r") ||
+                    !args.Contains("-c") ||!args.Contains("-a"))
+            {
+                Console.WriteLine("Unsupported argument");
+                ListArguments();
+            }
+
             else
             {
                 ListArguments();

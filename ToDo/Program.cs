@@ -12,6 +12,14 @@ namespace ToDo
             {
                 ListTasks();
             }
+            else if (args.Contains("-a"))
+            {
+                using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
+                {
+                    writer.WriteLine(args[1]);
+                }
+
+            }
             else
             {
                 ListArguments();

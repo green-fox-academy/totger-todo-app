@@ -14,9 +14,16 @@ namespace ToDo
             }
             else if (args.Contains("-a"))
             {
-                using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
+                if (args.Length < 2)
                 {
-                    writer.WriteLine(args[1]);
+                    Console.WriteLine("Unable to add: no task provided");
+                }
+                else
+                {
+					using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
+					{
+						writer.WriteLine(args[1]);
+					}    
                 }
 
             }

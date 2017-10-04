@@ -1,0 +1,6 @@
+[X] buy beer
+[X] order pizza
+[ ] catch tram
+[ ] watch movie
+[ ] refactor todo app
+[ ] test

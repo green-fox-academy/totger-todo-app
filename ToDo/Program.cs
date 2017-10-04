@@ -9,35 +9,37 @@ namespace ToDo
     {
         public static void Main(string[] args)
         {
+            string textPath = @"../../assets/list.txt";
             if (args.Contains("-l"))
             {
                 ListTasks();
             }
             else if (args.Contains("-a"))
             {
-                if (args.Length < 2)
+                try
                 {
-                    Console.WriteLine("Unable to add: no task provided");
+					using (StreamWriter writer = File.AppendText(textPath))
+					{
+						writer.WriteLine("[ ] " + args[1]);
+					}    
                 }
-                else
+                catch (IndexOutOfRangeException)
                 {
-                    using (StreamWriter writer = File.AppendText(@"../../assets/list.txt"))
-                    {
-                        writer.WriteLine(args[1]);
-                    }
+                    Console.WriteLine("Unable to add: no task provided");    
                 }
+
             }
             else if (args.Contains("-r"))
             {
                 try
                 {
-                    var file = new List<string>(File.ReadAllLines(@"../../assets/list.txt"));
+                    var file = new List<string>(File.ReadAllLines(textPath));
                     file.RemoveAt(Convert.ToInt32(args[1]) - 1);
-                    File.WriteAllLines(@"../../assets/list.txt", file);
+                    File.WriteAllLines(textPath, file);
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    Console.WriteLine("Unable to add: no task provided");
+                    Console.WriteLine("Unable to remove: no task provided");
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -47,6 +49,29 @@ namespace ToDo
                 {
                     Console.WriteLine("Unable to remove: index is not a number");
                 }
+            }
+            else if (args.Contains("-c"))
+            {
+                try
+                {
+                    var file = new List<string>(File.ReadAllLines(textPath));
+                    string temp = file[Convert.ToInt32(args[1]) - 1].Substring(4);
+                    file.RemoveAt(Convert.ToInt32(args[1]) - 1);
+                    file.Insert(Convert.ToInt32(args[1]) - 1, "[X] " + temp);
+                    File.WriteAllLines(textPath, file);    
+                }
+				catch (IndexOutOfRangeException)
+				{
+					Console.WriteLine("Unable to check: no task provided");
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+					Console.WriteLine("Unable to check: index is out of bound");
+				}
+				catch (FormatException)
+				{
+					Console.WriteLine("Unable to check: index is not a number");
+				}
             }
             else if (args.Length > 0 && !args.Contains("-l") || !args.Contains("-r") ||
                     !args.Contains("-c") ||!args.Contains("-a"))
